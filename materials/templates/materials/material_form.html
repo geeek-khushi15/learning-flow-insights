@@ -1,0 +1,27 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-dark">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Upload Course Material</h4>
+                <a href="{% url 'dashboard' %}" class="btn btn-sm btn-outline-light">Back to Dashboard</a>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <small class="text-muted d-block mb-3">Ensure you provide either a file upload (PDF/VIDEO) or
+                        textual content (NOTE/LINK) based on the material type.</small>
+                    <div class="d-flex justify-content-end mt-4">
+                        <a href="{% url 'dashboard' %}" class="btn btn-secondary me-2">Cancel</a>
+                        <button type="submit" class="btn btn-success">Upload Material</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

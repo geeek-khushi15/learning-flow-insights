@@ -1,0 +1,114 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center border-bottom pb-2">
+        <h2 class="text-dark">Admin System Dashboard</h2>
+        <a href="/admin/" class="btn btn-dark">Go to Django Admin</a>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Quick Stats -->
+    <div class="col-md-4 mb-4">
+        <a href="{% url 'course_list' %}" class="text-decoration-none">
+            <div class="card shadow-sm text-center border-primary border-top-0 border-end-0 border-bottom-0 border-5 h-100 btn btn-outline-light">
+                <div class="card-body py-4">
+                    <h1 class="display-4 text-primary">Courses</h1>
+                    <h5 class="text-muted mb-0">Manage Platform Courses</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <!-- Certifications Stat -->
+    <div class="col-md-4 mb-4">
+        <a href="{% url 'admin_application_list' %}" class="text-decoration-none">
+            <div class="card shadow-sm text-center border-warning border-top-0 border-end-0 border-bottom-0 border-5 h-100 btn btn-outline-light">
+                <div class="card-body py-4">
+                    <h1 class="display-4 text-warning">Certificates</h1>
+                    <h5 class="text-muted mb-0">Review Applications</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Batches Stat -->
+    <div class="col-md-4 mb-4">
+        <a href="{% url 'batch_list' %}" class="text-decoration-none">
+            <div class="card shadow-sm text-center border-info border-top-0 border-end-0 border-bottom-0 border-5 h-100 btn btn-outline-light">
+                <div class="card-body py-4">
+                    <h1 class="display-4 text-info">Batches</h1>
+                    <h5 class="text-muted mb-0">Manage Assigned Cohorts</h5>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm text-center border-info border-top-0 border-end-0 border-bottom-0 border-5">
+            <div class="card-body py-4">
+                <h1 class="display-4 text-info">8</h1>
+                <h5 class="text-muted mb-0">Active Trainers</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm text-center border-success border-top-0 border-end-0 border-bottom-0 border-5">
+            <div class="card-body py-4">
+                <h1 class="display-4 text-success">350</h1>
+                <h5 class="text-muted mb-0">Enrolled Students</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Platform Overview -->
+    <div class="col-md-12 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Certification Approvals Queue</h5>
+                <span class="badge bg-danger">3 Pending</span>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Student</th>
+                                <th>Course Completed</th>
+                                <th>Trainer Approver</th>
+                                <th>Date Submitted</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mark Johnson</td>
+                                <td>Advanced React Patterns</td>
+                                <td>Sarah Williams</td>
+                                <td>Oct 10, 2026</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1">Approve</button>
+                                    <button class="btn btn-sm btn-danger">Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Emily Davis</td>
+                                <td>Data Science Bootcamp</td>
+                                <td>Dr. Alan Turing</td>
+                                <td>Oct 11, 2026</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1">Approve</button>
+                                    <button class="btn btn-sm btn-danger">Reject</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

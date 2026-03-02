@@ -1,0 +1,87 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 border-bottom pb-2 d-flex justify-content-between align-items-center">
+        <h2 class="text-success"><i class="bi bi-mortarboard-fill me-2"></i>Apply for Certification</h2>
+        <a href="{% url 'student_certification_list' %}" class="btn btn-outline-secondary">Go Back</a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Certification Request Form - {{ batch.name }}</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info border-0 rounded-3 shadow-sm mb-4">
+                    <i class="bi bi-info-circle-fill me-2"></i> Your trainer has formally recommended you for graduation in the <strong>{{ batch.course.title }}</strong> course. Please fill out the demographic details below carefully. These details will be audited by administration prior to issuing the final certificate.
+                </div>
+                
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <h5 class="border-bottom pb-2 mb-3 text-secondary"><i class="bi bi-person-vcard text-primary me-2"></i>A. Personal Identity</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            {{ form.full_name|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.fathers_name|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.mothers_name|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-3">
+                            {{ form.date_of_birth|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.email_id|as_crispy_field }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form.contact_number|as_crispy_field }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.caste_category|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <h5 class="border-bottom pb-2 mb-3 text-secondary mt-5"><i class="bi bi-bank2 text-primary me-2"></i>B. Academic Record</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            {{ form.highest_education|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.course_start_date|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.course_end_date|as_crispy_field }}
+                        </div>
+                    </div>
+
+                    <h5 class="border-bottom pb-2 mb-3 text-secondary mt-5"><i class="bi bi-pin-map-fill text-primary me-2"></i>C. Logistics & Identification</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            {{ form.address_with_pincode|as_crispy_field }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.passport_photo|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid mt-5">
+                        <button type="submit" class="btn btn-success btn-lg shadow-sm">
+                            <i class="bi bi-send-check me-2"></i> Submit Application for Review
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

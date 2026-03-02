@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' "/Users/khushibarole/.gemini/antigravity/brain/b7d6dfd7-cecd-4086-837d-32f936a4dd73/student management portal/venv/bin/python3.12" "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from pip._internal.cli.main import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())

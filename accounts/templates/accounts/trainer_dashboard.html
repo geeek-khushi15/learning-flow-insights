@@ -1,0 +1,150 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="text-info border-bottom pb-2">Trainer Dashboard</h2>
+        <p class="lead">Welcome back, Trainer {{ user.username }}!</p>
+    </div>
+</div>
+
+<div class="row">
+
+    <!-- Trainer Actions -->
+    <div class="col-md-12 mb-4">
+        <div class="card shadow-sm border-info">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Trainer Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{% url 'trainer_profile' %}" class="btn btn-outline-info w-100 py-3 d-flex flex-column align-items-center h-100 justify-content-center">
+                            <i class="bi bi-person-workspace fs-2 mb-2"></i>
+                            <span class="fw-bold text-center">My Profile</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{% url 'material_create' %}" class="btn btn-outline-primary w-100 py-3 d-flex flex-column align-items-center h-100 justify-content-center">
+                            <i class="bi bi-file-earmark-arrow-up fs-2 mb-2"></i>
+                            <span class="fw-bold">Upload Materials</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{% url 'test_create' %}" class="btn btn-outline-warning w-100 py-3 d-flex flex-column align-items-center h-100 justify-content-center">
+                            <i class="bi bi-ui-checks fs-2 mb-2"></i>
+                            <span class="fw-bold text-center">Create Test</span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="{% url 'student_performance_list' %}" class="btn btn-outline-success w-100 py-3 d-flex flex-column align-items-center h-100 justify-content-center">
+                            <i class="bi bi-person-up fs-2 mb-2"></i>
+                            <span class="fw-bold text-center">Recommend Students</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assigned Courses -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-info">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Assigned Courses</h5>
+                <span class="badge bg-light text-info">2 Active</span>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Introduction to Python
+                        <span class="badge bg-primary rounded-pill">45 Students</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Web Development with Django
+                        <span class="badge bg-primary rounded-pill">32 Students</span>
+                    </li>
+                </ul>
+                <button class="btn btn-outline-info w-100 mt-3">Manage Course Content</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Verifications -->
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100 border-danger">
+            <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Pending Verifications</h5>
+                <span class="badge bg-light text-danger">4 New</span>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning" role="alert">
+                    <strong>Action Required:</strong> 4 student assignments are waiting for your review.
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        John Doe - Python Basics Quiz
+                        <button class="btn btn-sm btn-success">Review</button>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Jane Smith - Django Setup
+                        <button class="btn btn-sm btn-success">Review</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student List -->
+    <div class="col-md-12">
+        <div class="card shadow-sm border-secondary">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">Enrolled Students Overview</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Email</th>
+                                <th>Course</th>
+                                <th>Progress</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>john@example.com</td>
+                                <td>Introduction to Python</td>
+                                <td>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 80%">
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">80%</small>
+                                </td>
+                                <td><span class="badge bg-success">On Track</span></td>
+                            </tr>
+                            <tr>
+                                <td>Jane Smith</td>
+                                <td>jane@example.com</td>
+                                <td>Web Development with Django</td>
+                                <td>
+                                    <div class="progress" style="height: 5px;">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 45%">
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">45%</small>
+                                </td>
+                                <td><span class="badge bg-warning text-dark">Needs Attention</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

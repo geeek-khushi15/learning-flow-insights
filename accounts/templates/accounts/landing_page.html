@@ -1,0 +1,280 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Training & Certification Management System</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        .hero-section {
+            background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
+            color: white;
+            padding: 100px 0;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .workflow-arrow {
+            font-size: 2rem;
+            color: #ccc;
+            margin: 20px 0;
+        }
+
+        @media (min-width: 992px) {
+            .workflow-arrow {
+                transform: rotate(-90deg);
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- 1 & 2. Hero Header -->
+    <header class="hero-section text-center position-relative shadow">
+        <div class="container pb-5">
+            <h1 class="display-3 fw-bold mb-4">Student Training & Certification Management System</h1>
+            <p class="lead fw-normal text-white-50 mb-4 px-md-5">A comprehensive platform to seamlessly manage batches,
+                organize training delivery, execute evaluations, and securely orchestrate certification workflows.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'login' %}" class="btn btn-light btn-lg px-4 fw-bold text-primary">Login to Portal</a>
+                <a href="#register" class="btn btn-outline-light btn-lg px-4">Join Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 3. Role-Based Access Options -->
+    <section class="container mt-n5 position-relative" style="z-index: 10; margin-top: -60px;">
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm card-hover text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-mortarboard-fill feature-icon"></i>
+                        <h4 class="card-title fw-bold">Student Portal</h4>
+                        <p class="card-text text-muted mb-4">Access your enrolled courses, attempt scheduled tests, and
+                            apply for your final certification.</p>
+                        <a href="{% url 'login' %}" class="btn btn-outline-primary w-100">Student Login</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm card-hover text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-person-workspace feature-icon text-success"></i>
+                        <h4 class="card-title fw-bold">Trainer Portal</h4>
+                        <p class="card-text text-muted mb-4">Manage assigned cohorts, upload course materials, build
+                            tests, and recommend top performers.</p>
+                        <a href="{% url 'login' %}" class="btn btn-outline-success w-100">Trainer Login</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm card-hover text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-shield-lock-fill feature-icon text-danger"></i>
+                        <h4 class="card-title fw-bold">Admin Portal</h4>
+                        <p class="card-text text-muted mb-4">Orchestrate the entire platform. Create courses, assign
+                            batches, and resolve Certificate requests.</p>
+                        <a href="{% url 'login' %}" class="btn btn-outline-danger w-100">Admin Login</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4. Feature Highlights Grid -->
+    <section class="container py-5 my-5">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold text-dark">System Capabilities</h2>
+            <p class="text-muted">A full-stack ecosystem designed for educational velocity.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div
+                    class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-primary">
+                    <i class="bi bi-collection feature-icon fs-3 me-3 mb-0 text-primary"></i>
+                    <h6 class="mb-0 fw-bold">Batch-Based Learning</h6>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div
+                    class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-success">
+                    <i class="bi bi-person-video3 feature-icon fs-3 me-3 mb-0 text-success"></i>
+                    <h6 class="mb-0 fw-bold">Trainer-Led Training</h6>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-info">
+                    <i class="bi bi-file-earmark-pdf feature-icon fs-3 me-3 mb-0 text-info"></i>
+                    <h6 class="mb-0 fw-bold">Course Material Access</h6>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+                <div
+                    class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-warning">
+                    <i class="bi bi-ui-checks-grid feature-icon fs-3 me-3 mb-0 text-warning"></i>
+                    <h6 class="mb-0 fw-bold">Test & Evaluation</h6>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div
+                    class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-danger">
+                    <i class="bi bi-award feature-icon fs-3 me-3 mb-0 text-danger"></i>
+                    <h6 class="mb-0 fw-bold">Certification Workflow</h6>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div
+                    class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-secondary">
+                    <i class="bi bi-question-circle feature-icon fs-3 me-3 mb-0 text-secondary"></i>
+                    <h6 class="mb-0 fw-bold">Raise Doubts Support</h6>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm border-start border-4 border-dark">
+                    <i class="bi bi-journal-check feature-icon fs-3 me-3 mb-0 text-dark"></i>
+                    <h6 class="mb-0 fw-bold">Syllabus Acknowledgment</h6>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Workflow Explanation -->
+    <section class="bg-white py-5 border-top border-bottom">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">How the System Works</h2>
+                <p class="text-muted">A streamlined chronological pipeline from enrollment to graduation.</p>
+            </div>
+
+            <div class="row align-items-center text-center">
+
+                <div class="col-lg-3">
+                    <div class="p-4 bg-light rounded-circle d-inline-block shadow-sm mb-3">
+                        <i class="bi bi-gear-fill display-4 text-danger"></i>
+                    </div>
+                    <h4 class="fw-bold">1. Admin</h4>
+                    <p class="text-muted">Constructs Courses & organizes Batches</p>
+                </div>
+
+                <div class="col-lg-1 d-flex justify-content-center">
+                    <i class="bi bi-arrow-right workflow-arrow d-none d-lg-block"></i>
+                    <i class="bi bi-arrow-down workflow-arrow d-lg-none"></i>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="p-4 bg-light rounded-circle d-inline-block shadow-sm mb-3">
+                        <i class="bi bi-person-video display-4 text-success"></i>
+                    </div>
+                    <h4 class="fw-bold">2. Trainer</h4>
+                    <p class="text-muted">Delivers live training & actively evaluates students</p>
+                </div>
+
+                <div class="col-lg-1 d-flex justify-content-center">
+                    <i class="bi bi-arrow-right workflow-arrow d-none d-lg-block"></i>
+                    <i class="bi bi-arrow-down workflow-arrow d-lg-none"></i>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="p-4 bg-light rounded-circle d-inline-block shadow-sm mb-3">
+                        <i class="bi bi-mortarboard display-4 text-primary"></i>
+                    </div>
+                    <h4 class="fw-bold">3. Student</h4>
+                    <p class="text-muted">Learns, takes tests, & applies for certification</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Student Actions Overview -->
+    <section class="container py-5 my-4">
+        <div class="row align-items-center">
+            <div class="col-md-5 mb-4 mb-md-0">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=800&auto=format&fit=crop"
+                    class="img-fluid rounded shadow-lg" alt="Students Learning">
+            </div>
+            <div class="col-md-7 ps-md-5">
+                <h2 class="fw-bold mb-4">Empowering the Student Experience</h2>
+                <p class="text-muted lead mb-4">Once enrolled, our dedicated portal grants you absolute academic clarity
+                    and interaction.</p>
+
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-primary fs-4 me-3"></i>
+                            <h5 class="mb-0">Acknowledge Syllabus</h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-primary fs-4 me-3"></i>
+                            <h5 class="mb-0">Raise Doubts Live</h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-primary fs-4 me-3"></i>
+                            <h5 class="mb-0">Take MCQ Tests</h5>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-check-circle-fill text-primary fs-4 me-3"></i>
+                            <h5 class="mb-0">Apply for Certificate</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. Call To Action -->
+    <section id="register" class="bg-dark text-white py-5 border-top border-4 border-primary">
+        <div class="container text-center py-4">
+            <h2 class="fw-bold mb-3">Ready to begin your journey?</h2>
+            <p class="text-light opacity-75 mb-4">Register your account below according to your designated role.</p>
+
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-5">Login</a>
+                <a href="{% url 'student_register' %}" class="btn btn-outline-light btn-lg px-4">Register as Student</a>
+                <a href="{% url 'trainer_register' %}" class="btn btn-outline-light btn-lg px-4">Register as Trainer</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-center text-white-50 py-3 border-top border-secondary">
+        <div class="container">
+            <small>&copy; 2026 Student Training & Certification Management System. All Rights Reserved.</small>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

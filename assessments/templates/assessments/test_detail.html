@@ -1,0 +1,51 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center border-bottom pb-2">
+        <h2 class="text-dark">{{ test.title }} <span class="badge bg-secondary fs-6">{{ test.batch.name }}</span></h2>
+        <div>
+            <a href="{% url 'question_create' test_id=test.id %}" class="btn btn-success">+ Add Question</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-outline-primary ms-2">Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4>Configuration</h4>
+        <p><strong>Passing Marks:</strong> {{ test.passing_marks }}</p>
+        <p><strong>Total Questions:</strong> {{ questions.count }}</p>
+
+        <hr>
+        <h4>Questions</h4>
+        {% if questions %}
+        {% for q in questions %}
+        <div class="card mb-3 shadow-sm border-info">
+            <div class="card-header fw-bold bg-light">
+                Q{{ forloop.counter }}. {{ q.text }}
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li
+                        class="list-group-item {% if q.correct_option == 1 %}list-group-item-success fw-bold{% endif %}">
+                        1. {{ q.option1 }}</li>
+                    <li
+                        class="list-group-item {% if q.correct_option == 2 %}list-group-item-success fw-bold{% endif %}">
+                        2. {{ q.option2 }}</li>
+                    <li
+                        class="list-group-item {% if q.correct_option == 3 %}list-group-item-success fw-bold{% endif %}">
+                        3. {{ q.option3 }}</li>
+                    <li
+                        class="list-group-item {% if q.correct_option == 4 %}list-group-item-success fw-bold{% endif %}">
+                        4. {{ q.option4 }}</li>
+                </ul>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="alert alert-warning">No questions have been added to this test yet.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

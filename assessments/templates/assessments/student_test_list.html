@@ -1,0 +1,57 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 border-bottom pb-2">
+        <h2 class="text-dark">My Assessments</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if tests %}
+        <div class="row">
+            {% for test in tests %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-start border-4 border-info">
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">{{ test.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ test.batch.name }}</h6>
+                        <p class="text-muted small mb-3">Passing Marks: {{ test.passing_marks }}</p>
+
+                        {% if test.id in attempted_test_ids %}
+                        <button class="btn btn-sm btn-secondary" disabled>Attempted</button>
+                        {% else %}
+                        {% if test.questions.count > 0 %}
+                        <a href="{% url 'test_attempt' test_id=test.id %}" class="btn btn-sm btn-primary">Attempt Test
+                            &rarr;</a>
+                        {% else %}
+                        <button class="btn btn-sm btn-outline-warning" disabled>No Questions Available</button>
+                        {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            No tests are currently available for your enrolled cohorts.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+</div>
+{% endblock %}

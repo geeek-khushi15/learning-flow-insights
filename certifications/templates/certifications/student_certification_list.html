@@ -1,0 +1,92 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 border-bottom pb-2 d-flex justify-content-between align-items-center">
+        <h2 class="text-dark">My Certifications</h2>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                {% if enrollments %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Batch / Course</th>
+                                <th>Trainer</th>
+                                <th class="text-center">Trainer Recommendation</th>
+                                <th class="text-center">Certification Status</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cd in cert_data %}
+                            <tr>
+                                <td class="fw-bold">{{ cd.enrollment.batch.name }}</td>
+                                <td>{{ cd.enrollment.batch.trainer.username }}</td>
+                                <td class="text-center">
+                                    {% if cd.is_recommended %}
+                                    <span class="badge bg-success"><i class="bi bi-star-fill text-warning"></i>
+                                        Recommended</span>
+                                    {% else %}
+                                    <span class="text-muted fst-italic">Pending</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    {% if cd.application %}
+                                    {% if cd.application.status == 'PENDING' %}
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i> Under
+                                        Review</span>
+                                    {% elif cd.application.status == 'APPROVED' %}
+                                    <span class="badge bg-success"><i class="bi bi-check-circle"></i> Granted</span>
+                                    {% else %}
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Denied</span>
+                                    {% endif %}
+                                    {% else %}
+                                    <span class="text-muted fst-italic">Not Applied</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    {% if not cd.application and cd.is_recommended %}
+                                    <form method="post"
+                                        action="{% url 'apply_certification' batch_id=cd.enrollment.batch.id %}"
+                                        style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-primary"
+                                            onclick="return confirm('Officially Apply for Certification?');">
+                                            Apply Now
+                                        </button>
+                                    </form>
+                                    {% elif cd.application %}
+                                    <button class="btn btn-sm btn-light" disabled>Applied</button>
+                                    {% else %}
+                                    <button class="btn btn-sm btn-light" disabled>Pre-requisites Missing</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info border-0 mb-0">No active batch enrollments found.</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

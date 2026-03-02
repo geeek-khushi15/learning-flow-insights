@@ -1,0 +1,26 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm border-primary">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">Add Question to: {{ test.title }}</h4>
+                <a href="{% url 'test_detail' pk=test.id %}" class="btn btn-sm btn-outline-light">Back to Test</a>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <small class="text-muted d-block mb-3">Ensure the correct option integer precisely matches the
+                        intended choice row (1-4).</small>
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="submit" class="btn btn-success">Save Question</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

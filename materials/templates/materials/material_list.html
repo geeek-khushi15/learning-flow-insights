@@ -1,0 +1,62 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center border-bottom pb-2">
+        <h2 class="text-dark">Materials for {{ batch.name }}</h2>
+        {% if user.role == 'TRAINER' %}
+        <a href="{% url 'material_create' %}" class="btn btn-success">+ Upload Material</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% if materials %}
+        <div class="row">
+            {% for material in materials %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-start border-4
+                        {% if material.material_type == 'PDF' %}border-danger
+                        {% elif material.material_type == 'VIDEO' %}border-primary
+                        {% elif material.material_type == 'NOTE' %}border-warning
+                        {% else %}border-info{% endif %}">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title text-truncate">{{ material.title }}</h5>
+                            <span class="badge bg-secondary">{{ material.get_material_type_display }}</span>
+                        </div>
+                        <p class="text-muted small mb-3">Uploaded on: {{ material.uploaded_at|date:"M d, Y" }}</p>
+
+                        {% if material.material_type == 'PDF' or material.material_type == 'VIDEO' %}
+                        {% if material.file %}
+                        <a href="{{ material.file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">Open
+                            File</a>
+                        {% else %}
+                        <span class="text-danger small">File missing</span>
+                        {% endif %}
+                        {% elif material.material_type == 'LINK' %}
+                        <a href="{{ material.content }}" target="_blank" class="btn btn-sm btn-outline-info">Visit Link
+                            &rarr;</a>
+                        {% elif material.material_type == 'NOTE' %}
+                        <div class="bg-light p-2 rounded small">
+                            {{ material.content|linebreaks }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            No materials have been uploaded for this batch yet.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+</div>
+{% endblock %}

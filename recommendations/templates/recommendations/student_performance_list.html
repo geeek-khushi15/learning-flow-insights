@@ -1,0 +1,89 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 border-bottom pb-2 d-flex justify-content-between align-items-center">
+        <h2 class="text-dark">Student Performance & Certifications</h2>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                {% if performance_data %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Batch</th>
+                                <th class="text-center">Tests Attempted</th>
+                                <th class="text-center">Tests Passed</th>
+                                <th class="text-center">Recommendation Status</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pd in performance_data %}
+                            <tr>
+                                <td class="fw-bold">{{ pd.enrollment.student.username }}</td>
+                                <td><span class="badge bg-secondary">{{ pd.enrollment.batch.name }}</span></td>
+                                <td class="text-center">{{ pd.tests_attempted }} / {{ pd.total_tests }}</td>
+                                <td class="text-center">
+                                    {% if pd.tests_passed > 0 %} <span class="text-success fw-bold">{{ pd.tests_passed
+                                        }}</span> {% else %} 0 {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    {% if pd.recommendation %}
+                                    {% if pd.recommendation.status == 'PENDING' %}
+                                    <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i>
+                                        Pending Admin</span>
+                                    {% elif pd.recommendation.status == 'APPROVED' %}
+                                    <span class="badge bg-success"><i class="bi bi-check-circle"></i> Approved</span>
+                                    {% else %}
+                                    <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Rejected</span>
+                                    {% endif %}
+                                    {% else %}
+                                    <span class="text-muted fst-italic">Not Recommended</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-end">
+                                    {% if not pd.recommendation %}
+                                    <form method="post"
+                                        action="{% url 'recommend_student' student_id=pd.enrollment.student.id batch_id=pd.enrollment.batch.id %}"
+                                        style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-success"
+                                            onclick="return confirm('Recommend {{ pd.enrollment.student.username }} for certification?');">
+                                            Recommend
+                                        </button>
+                                    </form>
+                                    {% else %}
+                                    <button class="btn btn-sm btn-light" disabled>Recommended</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info border-0 mb-0">No enrolled students found across your assigned batches.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

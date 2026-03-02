@@ -1,0 +1,61 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12 d-flex justify-content-between align-items-center border-bottom pb-2">
+        <h2 class="text-dark">My Enrollments</h2>
+        <a href="{% url 'enrollment_create' %}" class="btn btn-success">+ Enroll in Batch</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+
+        {% if enrollments %}
+        <div class="card shadow-sm border-dark">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Course</th>
+                            <th>Batch Name</th>
+                            <th>Start Date</th>
+                            <th>Enrollment Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for enrollment in enrollments %}
+                        <tr>
+                            <td><strong>{{ enrollment.batch.course.title }}</strong></td>
+                            <td>{{ enrollment.batch.name }}</td>
+                            <td>{{ enrollment.batch.start_date|date:"M d, Y" }}</td>
+                            <td>{{ enrollment.enrollment_date|date:"M d, Y" }}</td>
+                            <td><span class="badge bg-success">Enrolled</span></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-info" role="alert">
+            You haven't enrolled in any courses yet. <a href="{% url 'enrollment_create' %}" class="alert-link">Explore
+                available batches</a>.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+</div>
+{% endblock %}
