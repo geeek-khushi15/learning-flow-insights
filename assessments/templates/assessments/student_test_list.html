@@ -1,57 +1,76 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col-12 border-bottom pb-2">
-        <h2 class="text-dark">My Assessments</h2>
+<div class="max-w-5xl mx-auto py-8">
+    
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
+        <h2 class="text-3xl font-extrabold text-brand-700 tracking-tight flex items-center">
+            <i class="bi bi-ui-checks-grid mr-3 text-brand-500"></i> My Assessments
+        </h2>
+        <a href="{% url 'dashboard' %}" class="text-sm font-semibold text-gray-600 bg-white border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors shadow-sm flex items-center">
+            <i class="bi bi-arrow-left mr-2"></i> Back to Dashboard
+        </a>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-        {% endif %}
-
-        {% if tests %}
-        <div class="row">
-            {% for test in tests %}
-            <div class="col-md-6 mb-4">
-                <div class="card h-100 shadow-sm border-start border-4 border-info">
-                    <div class="card-body">
-                        <h5 class="card-title text-truncate">{{ test.title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ test.batch.name }}</h6>
-                        <p class="text-muted small mb-3">Passing Marks: {{ test.passing_marks }}</p>
-
-                        {% if test.id in attempted_test_ids %}
-                        <button class="btn btn-sm btn-secondary" disabled>Attempted</button>
-                        {% else %}
-                        {% if test.questions.count > 0 %}
-                        <a href="{% url 'test_attempt' test_id=test.id %}" class="btn btn-sm btn-primary">Attempt Test
-                            &rarr;</a>
-                        {% else %}
-                        <button class="btn btn-sm btn-outline-warning" disabled>No Questions Available</button>
-                        {% endif %}
-                        {% endif %}
+    <!-- Messages -->
+    {% if messages %}
+        <div class="space-y-4 mb-8">
+            {% for message in messages %}
+                <div class="bg-brand-50 border-l-4 border-brand-500 p-4 rounded-r-lg shadow-sm flex justify-between items-center">
+                    <div class="flex">
+                        <i class="bi bi-info-circle-fill text-brand-500 mr-3"></i>
+                        <p class="text-sm text-brand-800 font-medium">{{ message }}</p>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
-        {% else %}
-        <div class="alert alert-info" role="alert">
-            No tests are currently available for your enrolled cohorts.
-        </div>
-        {% endif %}
-    </div>
-</div>
+    {% endif %}
 
-<div class="mt-4">
-    <a href="{% url 'dashboard' %}" class="btn btn-secondary">&larr; Back to Dashboard</a>
+    <!-- Tests Grid -->
+    {% if tests %}
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for test in tests %}
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col hover:shadow-md transition-shadow relative">
+                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-brand-500"></div>
+                    
+                    <div class="p-6 flex-grow">
+                        <h5 class="text-xl font-bold text-gray-900 mb-2 truncate" title="{{ test.title }}">{{ test.title }}</h5>
+                        <h6 class="text-sm font-semibold text-brand-600 mb-4">{{ test.batch.name }}</h6>
+                        
+                        <div class="flex items-center text-sm text-gray-500 mb-6 bg-gray-50 rounded-md p-3 border border-gray-100">
+                            <i class="bi bi-bullseye mr-2 text-rose-500"></i> 
+                            <span class="font-medium text-gray-700 mr-2">Passing Marks:</span> {{ test.passing_marks }}
+                        </div>
+                        
+                        <div class="mt-auto">
+                            {% if test.id in attempted_test_ids %}
+                                <button class="w-full bg-gray-100 text-gray-400 font-bold py-2.5 rounded-lg cursor-not-allowed border border-gray-200" disabled>
+                                    <i class="bi bi-check2-circle mr-2"></i> Attempted
+                                </button>
+                            {% else %}
+                                {% if test.questions.count > 0 %}
+                                    <a href="{% url 'test_attempt' test_id=test.id %}" class="w-full block text-center bg-brand-600 hover:bg-brand-500 text-white font-bold py-2.5 rounded-lg shadow-sm transition-colors focus:ring-4 focus:ring-brand-300">
+                                        Attempt Test <i class="bi bi-arrow-right ml-2"></i>
+                                    </a>
+                                {% else %}
+                                    <button class="w-full bg-amber-50 text-amber-500 border border-amber-200 font-bold py-2.5 rounded-lg cursor-not-allowed" disabled>
+                                        <i class="bi bi-exclamation-triangle mr-2"></i> No Questions Available
+                                    </button>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="bg-sky-50 border border-sky-200 p-8 rounded-xl text-center shadow-sm">
+            <i class="bi bi-clipboard-x text-4xl text-sky-400 mb-3"></i>
+            <h3 class="text-lg font-bold text-sky-800 mb-1">No Tests Found</h3>
+            <p class="text-sm text-sky-600">There are currently no active assessments available for your enrolled cohorts.</p>
+        </div>
+    {% endif %}
+
 </div>
 {% endblock %}

@@ -1,80 +1,109 @@
 {% extends 'accounts/base.html' %}
 
 {% block content %}
-<div class="row mb-4">
-    <div class="col-12 border-bottom pb-2 d-flex justify-content-between align-items-center">
-        <h2 class="text-dark">My Certifications</h2>
-        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+<div class="max-w-6xl mx-auto py-8">
+    
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row justify-between items-center mb-8 border-b border-gray-200 pb-4">
+        <h2 class="text-3xl font-extrabold text-emerald-700 tracking-tight flex items-center">
+            <i class="bi bi-award-fill mr-3 text-emerald-500"></i> My Certifications
+        </h2>
+        <a href="{% url 'dashboard' %}" class="mt-4 sm:mt-0 text-sm font-semibold text-gray-600 bg-white border border-gray-300 hover:bg-gray-50 px-4 py-2 rounded-lg transition-colors shadow-sm flex items-center">
+            <i class="bi bi-arrow-left mr-2"></i> Back to Dashboard
+        </a>
     </div>
-</div>
 
-<div class="row">
-    <div class="col-md-12">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <!-- Messages -->
+    {% if messages %}
+        <div class="space-y-4 mb-8">
+            {% for message in messages %}
+                <div class="bg-brand-50 border-l-4 border-brand-500 p-4 rounded-r-lg shadow-sm flex justify-between items-center">
+                    <div class="flex">
+                        <i class="bi bi-info-circle-fill text-brand-500 mr-3"></i>
+                        <p class="text-sm text-brand-800 font-medium">{{ message }}</p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-        {% endif %}
+    {% endif %}
 
-        <div class="card shadow-sm border-0">
-            <div class="card-body">
-                {% if enrollments %}
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-light">
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="p-0">
+            {% if enrollments %}
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
                             <tr>
-                                <th>Batch / Course</th>
-                                <th>Trainer</th>
-                                <th class="text-center">Trainer Recommendation</th>
-                                <th class="text-center">Certification Status</th>
-                                <th class="text-end">Action</th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Batch / Course</th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Trainer</th>
+                                <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Trainer Recommendation</th>
+                                <th scope="col" class="px-6 py-4 text-center text-xs font-bold text-gray-500 uppercase tracking-wider">Certification Status</th>
+                                <th scope="col" class="px-6 py-4 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="bg-white divide-y divide-gray-100">
                             {% for cd in cert_data %}
-                            <tr>
-                                <td class="fw-bold">{{ cd.enrollment.batch.name }}</td>
-                                <td>{{ cd.enrollment.batch.trainer.username }}</td>
-                                <td class="text-center">
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-5 whitespace-nowrap">
+                                    <div class="text-sm font-bold text-emerald-700 mb-1">{{ cd.enrollment.batch.course.title }}</div>
+                                    <span class="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded border border-gray-200">{{ cd.enrollment.batch.name }}</span>
+                                </td>
+                                <td class="px-6 py-5 whitespace-nowrap text-sm font-medium text-gray-700">
+                                    <div class="flex items-center">
+                                        <div class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center mr-2 text-xs font-bold">
+                                            {{ cd.enrollment.batch.trainer.username|make_list|first|upper }}
+                                        </div>
+                                        {{ cd.enrollment.batch.trainer.username }}
+                                    </div>
+                                </td>
+                                <td class="px-6 py-5 whitespace-nowrap text-center">
                                     {% if cd.is_recommended %}
-                                    <span class="badge bg-success"><i class="bi bi-star-fill text-warning"></i>
-                                        Recommended</span>
+                                        <span class="inline-flex items-center bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-200">
+                                            <i class="bi bi-star-fill text-amber-400 mr-1.5"></i> Recommended
+                                        </span>
                                     {% else %}
-                                    <span class="text-muted fst-italic">Pending</span>
+                                        <span class="inline-flex items-center text-gray-400 text-xs font-medium italic">
+                                            <i class="bi bi-clock mr-1.5"></i> Pending Evaluation
+                                        </span>
                                     {% endif %}
                                 </td>
-                                <td class="text-center">
+                                <td class="px-6 py-5 whitespace-nowrap text-center">
                                     {% if cd.application %}
-                                    {% if cd.application.status == 'PENDING' %}
-                                    <span class="badge bg-warning text-dark"><i class="bi bi-hourglass-split"></i> Under
-                                        Review</span>
-                                    {% elif cd.application.status == 'APPROVED' %}
-                                    <span class="badge bg-success"><i class="bi bi-check-circle"></i> Granted</span>
+                                        {% if cd.application.status == 'PENDING' %}
+                                            <span class="inline-flex items-center bg-amber-50 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full border border-amber-200">
+                                                <i class="bi bi-hourglass-split mr-1.5 text-amber-500"></i> Under Review
+                                            </span>
+                                        {% elif cd.application.status == 'APPROVED' %}
+                                            <span class="inline-flex items-center bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-200">
+                                                <i class="bi bi-check-circle-fill mr-1.5 text-emerald-500"></i> Certificate Granted
+                                            </span>
+                                        {% else %}
+                                            <span class="inline-flex items-center bg-rose-50 text-rose-700 text-xs font-bold px-2.5 py-1 rounded-full border border-rose-200">
+                                                <i class="bi bi-x-circle-fill mr-1.5 text-rose-500"></i> Application Denied
+                                            </span>
+                                        {% endif %}
                                     {% else %}
-                                    <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Denied</span>
-                                    {% endif %}
-                                    {% else %}
-                                    <span class="text-muted fst-italic">Not Applied</span>
+                                        <span class="inline-flex items-center text-gray-400 text-xs font-medium italic">
+                                            Not Applied
+                                        </span>
                                     {% endif %}
                                 </td>
-                                <td class="text-end">
+                                <td class="px-6 py-5 whitespace-nowrap text-right">
                                     {% if not cd.application and cd.is_recommended %}
-                                    <form method="post"
-                                        action="{% url 'apply_certification' batch_id=cd.enrollment.batch.id %}"
-                                        style="display:inline;">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-sm btn-primary"
-                                            onclick="return confirm('Officially Apply for Certification?');">
-                                            Apply Now
-                                        </button>
-                                    </form>
+                                        <form method="post" action="{% url 'apply_certification' batch_id=cd.enrollment.batch.id %}" class="inline-block">
+                                            {% csrf_token %}
+                                            <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-2 px-4 rounded-lg shadow-sm transition-colors focus:ring-2 focus:ring-emerald-300" onclick="return confirm('Officially start your application for Certification?');">
+                                                Apply Now <i class="bi bi-arrow-right-short ml-1"></i>
+                                            </button>
+                                        </form>
                                     {% elif cd.application %}
-                                    <button class="btn btn-sm btn-light" disabled>Applied</button>
+                                        <button class="bg-gray-100 text-gray-400 text-xs font-bold py-2 px-4 rounded-lg border border-gray-200 cursor-not-allowed" disabled>
+                                            <i class="bi bi-check2"></i> Applied
+                                        </button>
                                     {% else %}
-                                    <button class="btn btn-sm btn-light" disabled>Pre-requisites Missing</button>
+                                        <button class="bg-gray-50 text-gray-400 text-xs font-medium py-2 px-3 rounded-lg border border-gray-200 cursor-not-allowed" disabled>
+                                            <i class="bi bi-lock-fill mr-1"></i> Awaiting Rec.
+                                        </button>
                                     {% endif %}
                                 </td>
                             </tr>
@@ -82,10 +111,13 @@
                         </tbody>
                     </table>
                 </div>
-                {% else %}
-                <div class="alert alert-info border-0 mb-0">No active batch enrollments found.</div>
-                {% endif %}
-            </div>
+            {% else %}
+                <div class="p-8 text-center bg-sky-50">
+                    <i class="bi bi-folder-x text-4xl text-sky-400 mb-3 block"></i>
+                    <h5 class="text-sky-800 font-bold mb-1">No Enrollments Found</h5>
+                    <p class="text-sky-600 text-sm">You are not currently enrolled in any active cohorts.</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'assessments',
     'recommendations',
     'certifications',
+    'attendance',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +152,6 @@ LOGOUT_REDIRECT_URL = 'login'
 # Media files (uploaded user files)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+#added for profile photo upload student 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

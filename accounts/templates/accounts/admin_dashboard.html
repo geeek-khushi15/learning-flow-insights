@@ -111,4 +111,79 @@
         </div>
     </div>
 </div>
+
+<div id="admin-doubts" class="row mt-4">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 mb-4">
+            <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Student Doubts (System-wide)</h5>
+                <span class="badge bg-light text-danger">{{ admin_pending_doubts|length }} Pending</span>
+            </div>
+            <div class="card-body">
+                {% for doubt in admin_pending_doubts %}
+                <div class="border rounded p-3 mb-3">
+                    <div class="font-bold text-gray-900 mb-2">
+                        {% if doubt.student.first_name or doubt.student.last_name %}
+                            {{ doubt.student.first_name }} {{ doubt.student.last_name }}
+                        {% else %}
+                            {{ doubt.student.username }}
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between flex-wrap gap-2 mb-2">
+                        <strong>{{ doubt.title }}</strong>
+                        <small class="text-muted">{{ doubt.created_at|date:"M d, Y H:i" }}</small>
+                    </div>
+                    <p class="mb-2">{{ doubt.description }}</p>
+                    <p class="small text-muted mb-2">
+                        {% if doubt.related_course %}Course: {{ doubt.related_course.title }}{% else %}Course: -{% endif %}
+                        {% if doubt.trainer %}| Trainer: {{ doubt.trainer.username }}{% endif %}
+                    </p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="doubt_id" value="{{ doubt.id }}">
+                        <div class="mb-2">
+                            <textarea name="response" class="form-control" rows="3" placeholder="Write admin response..."></textarea>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="submit" name="action" value="admin_reply" class="btn btn-sm btn-primary">Reply</button>
+                            <button type="submit" name="action" value="admin_resolve" class="btn btn-sm btn-success">Resolve</button>
+                        </div>
+                    </form>
+                </div>
+                {% empty %}
+                <p class="text-muted mb-0">No pending doubts.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Recently Resolved Doubts</h5>
+            </div>
+            <div class="card-body">
+                {% for doubt in admin_resolved_doubts %}
+                <div class="border rounded p-3 mb-3">
+                    <div class="font-bold text-gray-900 mb-2">
+                        {% if doubt.student.first_name or doubt.student.last_name %}
+                            {{ doubt.student.first_name }} {{ doubt.student.last_name }}
+                        {% else %}
+                            {{ doubt.student.username }}
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between flex-wrap gap-2">
+                        <strong>{{ doubt.title }}</strong>
+                        <small class="text-muted">{{ doubt.resolved_at|date:"M d, Y" }}</small>
+                    </div>
+                    {% if doubt.response %}
+                    <p class="mb-0 mt-2">{{ doubt.response }}</p>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <p class="text-muted mb-0">No resolved doubts yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
